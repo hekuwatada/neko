@@ -1,4 +1,4 @@
-package org.neko.state.free
+package org.neko.free
 
 sealed trait Free[F[_], A] {
 
