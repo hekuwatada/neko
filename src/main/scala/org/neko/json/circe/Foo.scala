@@ -8,6 +8,7 @@ sealed trait Foo
 case class Bar(xs: Vector[String]) extends Foo
 case class Qux(i: Int, d: Option[Double]) extends Foo
 case class Qux2(i: Int, d: Option[Double]) extends Foo
+case object Hoge extends Foo
 
 //@see https://circe.github.io/circe/
 object TestFoo extends App {
@@ -15,6 +16,7 @@ object TestFoo extends App {
   val bar: Foo = Bar(Vector("a", "b"))
   val qux: Foo = Qux2(1, None)
   val mixedSeq: Seq[Foo] = Seq(foo, bar, qux)
+  val hoge: Foo = Hoge
 
   val json = foo.asJson.noSpaces
   println(json)
@@ -27,4 +29,7 @@ object TestFoo extends App {
 
   val decodedMixedSeq = decode[Seq[Foo]](mixedSeqJson)
   println(decodedMixedSeq)
+
+  val decodedHoge = hoge.asJson.noSpaces
+  println(decodedHoge)
 }
