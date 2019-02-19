@@ -2,7 +2,7 @@ package org.neko.json.circe
 
 import io.circe.{Encoder, Json}
 
-//TODO: use Encoder[String].contramap { _.toString }
+// Custom encoder from scratch
 object StackTraceElementEncoder extends Encoder[StackTraceElement] {
   import io.circe.syntax._
 
@@ -13,7 +13,9 @@ object StackTraceElementEncoder extends Encoder[StackTraceElement] {
 object ThrowableEncoder extends Encoder[Throwable] {
   import io.circe.syntax._
 
-  implicit val stackTraceElementEncoder: Encoder[StackTraceElement] = StackTraceElementEncoder
+  // Custom encoder using existing encoder with contramap for pre-processing
+  implicit val stackTraceElementEncoder: Encoder[StackTraceElement] =
+    Encoder[String].contramap((x: StackTraceElement) => x.toString)
 
   override def apply(a: Throwable): Json =
     Json.obj(
